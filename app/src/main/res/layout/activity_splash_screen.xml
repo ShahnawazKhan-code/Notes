@@ -48,7 +48,7 @@
         android:layout_marginBottom="25dp"
         android:fontFamily="@font/produc_sans_regular"
         android:gravity="center"
-        android:text="Developed By\n Aman"
+        android:text="Developed By\n Shahnawaz khan"
         android:textColor="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent" />
 

@@ -1,0 +1,90 @@
+@startuml
+class com.example.notes.Model.Notes {
++ int id
++ String notesTitle
++ String notesSubtitle
++ String notesDate
++ String notes
++ String notesPriority
+}
+interface com.example.notes.Dao.NotesDao {
+~ LiveData<List<Notes>> getallNotes()
++ void insertNotes(Notes)
+~ void deleteNotes(int)
+~ void updateNotes(Notes)
+}
+class com.example.notes.Activity.InsertNotesActivity {
+~ ActivityInsertNotesBinding binding
+~ String title
+~ NotesViewModel notesViewModel
+~ String priority
+# void onCreate(Bundle)
+- void CreateNotes(String,String,String)
+}
+class com.example.notes.Activity.SplashScreen {
+# void onCreate(Bundle)
+}
+class com.example.notes.Adapter.NotesAdapter {
+~ MainActivity mainActivity
+~ List<Notes> notes
++ <<Create>> NotesAdapter(MainActivity,List<Notes>)
++ notesViewholder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(notesViewholder,int)
++ int getItemCount()
+}
+class com.example.notes.Adapter.NotesAdapter.notesViewholder {
+~ TextView title
+~ View notesPriority
++ <<Create>> notesViewholder(View)
+}
+abstract class com.example.notes.Database.NotesDatabase {
++ {static} NotesDatabase INSTANCE
++ {abstract}NotesDao notesDao()
++ {static} NotesDatabase getDatabaseInstance(Context)
+}
+class com.example.notes.MainActivity {
+~ FloatingActionButton newNotesBtn
+~ NotesViewModel notesViewModel
+~ RecyclerView notesRecycler
+~ NotesAdapter adapter
+# void onCreate(Bundle)
+}
+class com.example.notes.ViewModel.NotesViewModel {
++ NotesRepository repository
++ LiveData<List<Notes>> getAllNotes
++ <<Create>> NotesViewModel(Application)
++ void insertNote(Notes)
++ void updateNote(Notes)
++ void deleteNote(int)
+}
+class com.example.notes.Activity.UpdateNotesActivity {
+~ ActivityUpdateNotesBinding binding
+~ String priority
+~ String stitle
+~ int sid
+~ NotesViewModel notesViewModel
+# void onCreate(Bundle)
+- void UpdateNotes(String,String,String)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(MenuItem)
+}
+class com.example.notes.Repository.NotesRepository {
++ NotesDao notesDao
++ LiveData<List<Notes>> getallNotes
++ <<Create>> NotesRepository(Application)
++ void insertNotes(Notes)
++ void deleteNotes(int)
++ void updateNotes(Notes)
+}
+
+
+androidx.appcompat.app.AppCompatActivity <|-- com.example.notes.Activity.InsertNotesActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.notes.Activity.SplashScreen
+com.example.notes.Adapter.Adapter <|-- com.example.notes.Adapter.NotesAdapter
+com.example.notes.Adapter.NotesAdapter +.. com.example.notes.Adapter.NotesAdapter.notesViewholder
+com.example.notes.Adapter.ViewHolder <|-- com.example.notes.Adapter.NotesAdapter.notesViewholder
+androidx.room.RoomDatabase <|-- com.example.notes.Database.NotesDatabase
+androidx.appcompat.app.AppCompatActivity <|-- com.example.notes.MainActivity
+androidx.lifecycle.AndroidViewModel <|-- com.example.notes.ViewModel.NotesViewModel
+androidx.appcompat.app.AppCompatActivity <|-- com.example.notes.Activity.UpdateNotesActivity
+@enduml
